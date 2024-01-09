@@ -1,0 +1,20 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+        <tr *ngFor="let user of users">
+            <td>{{ user.id }}</td>
+            <td>{{ user.userName }}</td>
+        </tr>
+    </table>
+
+    <h1>Another way using [at]for</h1>
+    @for (user of users; track user.id) {
+        <p>{{ user.id }}. {{ user.userName }}</p>
+    }
+
+</div>
