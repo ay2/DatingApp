@@ -2,27 +2,31 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
-import { UserService } from './user.service';
-import { User } from './user';
+import { NavComponent } from "./nav/nav.component";
+import { AccountService } from './services/account.service';
+import { User } from './models/user';
+import { HomeComponent } from './home/home.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    standalone: true,
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css',
+    imports: [CommonModule, RouterOutlet, NavComponent, HomeComponent]
 })
 export class AppComponent {
   title = 'Dating App UI client using Angular 17';
-  users: any;
+  
+  constructor(private accountService: AccountService) {}
 
-  constructor(private userService: UserService) {}
-
-  ngOnInit() {
-    this.userService.getUsers().subscribe({
-      next: response => this.users = response,
-      error: error => console.log(error),
-      complete: () => console.log('Request has completed')
-    });
+  ngOnInit(): void {
+    this.setCurrentUser();
+  }
+    
+  setCurrentUser() {
+    const userString = localStorage.getItem('user');
+    if (!userString) return;
+    const user: User = JSON.parse(userString);
+    this.accountService.serCurrentUser(user);
   }
 }
