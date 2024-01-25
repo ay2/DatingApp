@@ -1,35 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../services/account.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { User } from '../models/user';
-import { Observable, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FormsModule, NgbDropdownModule, AsyncPipe],
+  imports: [FormsModule, NgbDropdownModule, AsyncPipe, RouterLink, RouterLinkActive, TitleCasePipe],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
 export class NavComponent {
   model: any = {};
   
-  constructor(public accountService: AccountService) {}
+  constructor(public accountService: AccountService, 
+    private router: Router, private toastr: ToastrService) {}
 
   ngOnInit() {}
 
   login() {
     this.accountService.login(this.model).subscribe({
-      next: response => {
-        console.log(response);
-      },
-      error: error => console.log(error)
+      next: _ => this.router.navigateByUrl('/members'),
+      error: error => this.toastr.error(error.error)
     });
   }
 
   logout() {
     this.accountService.logout();
+    this.router.navigateByUrl('/');
   }
 }
