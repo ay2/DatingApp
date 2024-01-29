@@ -1,0 +1,18 @@
+<ng-container>
+    <h2>Test Errors</h2>
+    <button class="btn btn-outline-primary me-3" (click)="get400Error()">400</button>
+    <button class="btn btn-outline-primary me-3" (click)="get400ValidationError()">400 Validation</button>
+    <button class="btn btn-outline-primary me-3" (click)="get401Error()">401</button>
+    <button class="btn btn-outline-primary me-3" (click)="get404Error()">404</button>
+    <button class="btn btn-outline-primary me-3" (click)="get500Error()">500</button>
+
+    <div class="row mt-5">
+        <ul class="text-dander">
+            @for (error of validationErrors; track error) {
+                <li>
+                    {{error}}
+                </li>
+            }
+        </ul>  
+    </div>
+</ng-container>
