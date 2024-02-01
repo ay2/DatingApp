@@ -15,7 +15,7 @@ import { TitleCasePipe } from '@angular/common';
   styleUrl: './nav.component.css'
 })
 export class NavComponent {
-  model: any = {};
+  model: any = {}
   
   constructor(public accountService: AccountService, 
     private router: Router, private toastr: ToastrService) {}
@@ -25,7 +25,7 @@ export class NavComponent {
   login() {
     this.accountService.login(this.model).subscribe({
       next: _ => this.router.navigateByUrl('/members')
-    });
+    })
   }
 
   logout() {

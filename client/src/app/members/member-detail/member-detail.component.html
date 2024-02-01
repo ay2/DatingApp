@@ -1,1 +1,70 @@
-<p>member-detail works!</p>
+@if (member) {
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <img src="{{member.photoUrl || '.assets/user.png'}}" 
+                    alt="{{member.knownAs}}" 
+                    class="card-img-top img-thumbnail">
+                <div class="card-body">
+                    <div>
+                        <strong>Location:</strong>
+                        <p>{{member.city}}, {{member.country}}</p>
+                    </div>
+                    <div>
+                        <strong>Age:</strong>
+                        <p>{{member.age}}</p>
+                    </div>
+                    <div>
+                        <strong>Last active:</strong>
+                        <p>{{member.lastActive}}</p>
+                    </div>
+                    <div>
+                        <strong>Member since:</strong>
+                        <p>{{member.created}}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group d-flex">
+                        <button class="btn btn-primary">Like</button>
+                        <button class="btn btn-success">Messages</button>
+                    </div>   
+                </div>
+            </div>
+        </div>
+
+        <div class="col-8">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                    <button ngbNavLink>About <b>{{member.knownAs}}</b></button>
+                    <ng-template ngbNavContent>
+                        <h4>Introduction</h4>
+                        <p>{{member.introduction}}</p>
+                        <h4>Interests</h4>
+                        <p>{{member.interests}}</p>
+                        <h4>Looking for</h4>
+                        <p>{{member.lookingFor}}</p>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                    <button ngbNavLink>Photos</button>
+                    @if (active===2) {
+                        <ng-template ngbNavContent>
+                            <gallery [items]="images" class="gallery"></gallery>
+                        </ng-template>
+                    }
+                </li>
+                <li [ngbNavItem]="3">
+                    <button ngbNavLink>Messages</button>
+                    <ng-template ngbNavContent>
+                        <p>Messages will go here...</p>
+                    </ng-template>
+                </li>
+            </ul>
+            
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+            
+            <pre>Active tab: {{active}}</pre>
+        </div>
+    </div>
+}
+

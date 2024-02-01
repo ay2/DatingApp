@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RegisterComponent } from "../register/register.component";
-import { UserService } from '../user.service';
 
 @Component({
     selector: 'app-home',
@@ -11,24 +10,13 @@ import { UserService } from '../user.service';
 })
 export class HomeComponent {
   registerMode = false;
-  users: any;
 
-  constructor(private userService: UserService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.getUsers();
-  }
+  ngOnInit(): void {}
 
   registerToggle() {
     this.registerMode = !this.registerMode;
-  }
-
-  getUsers() {
-    this.userService.getUsers().subscribe({
-      next: response => this.users = response,
-      error: error => console.log(error),
-      complete: () => console.log('Request has completed')
-    });
   }
 
   cancelRegisterMode(event: boolean) {

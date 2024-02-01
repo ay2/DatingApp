@@ -19,7 +19,8 @@
             </ul>
 
             <div class="dropdown" ngbDropdown>
-                <a class="dropdown-toggle text-light text-decoration-none" ngbDropdownToggle>Welcome {{user.username | titlecase}}!</a>
+                <a class="dropdown-toggle text-light text-decoration-none" 
+                    ngbDropdownToggle><i class="fa fa-user"></i>  {{user.username | titlecase}}</a>
                 <div class="dropdown-menu" ngbDropdownMenu>
                     <a class="dropdown-item" >Edit Profile</a>
                     <div class="dropdown-divider"></div>
