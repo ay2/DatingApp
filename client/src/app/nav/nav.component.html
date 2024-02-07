@@ -20,9 +20,9 @@
 
             <div class="dropdown" ngbDropdown>
                 <a class="dropdown-toggle text-light text-decoration-none" 
-                    ngbDropdownToggle><i class="fa fa-user"></i>  {{user.username | titlecase}}</a>
+                    ngbDropdownToggle><i class="fa fa-user mx-2"></i>{{user.username | titlecase}}</a>
                 <div class="dropdown-menu" ngbDropdownMenu>
-                    <a class="dropdown-item" >Edit Profile</a>
+                    <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" (click)="logout()">Logout</a>
                 </div>

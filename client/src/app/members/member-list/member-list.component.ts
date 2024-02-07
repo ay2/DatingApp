@@ -3,6 +3,7 @@ import { Member } from '../../models/member';
 import { MembersService } from '../../services/members.service';
 import { MemberCardComponent } from "../member-card/member-card.component";
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-member-list',
@@ -12,17 +13,11 @@ import { CommonModule } from '@angular/common';
     imports: [MemberCardComponent, CommonModule]
 })
 export class MemberListComponent {
-  members: Member[] = [];
+  members$: Observable<Member[]> | undefined;
 
   constructor(private memberService: MembersService) { }
 
   ngOnInit(): void {
-    this.loadMembers();
-  }
-
-  loadMembers() {
-    this.memberService.getMembers().subscribe({
-      next: items => this.members = items
-    })
+    this.members$ = this.memberService.getMembers();
   }
 }

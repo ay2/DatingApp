@@ -6,13 +6,14 @@ import { NavComponent } from "./nav/nav.component";
 import { AccountService } from './services/account.service';
 import { User } from './models/user';
 import { HomeComponent } from './home/home.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [CommonModule, RouterOutlet, NavComponent, HomeComponent]
+    imports: [CommonModule, RouterOutlet, NavComponent, HomeComponent, NgxSpinnerModule]
 })
 export class AppComponent {
   title = 'Dating App UI client using Angular 17';

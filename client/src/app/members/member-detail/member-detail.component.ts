@@ -17,7 +17,6 @@ export class MemberDetailComponent {
   images: GalleryItem[] = [];
   active = 1; // active Tab
 
-
   constructor(private memberService: MembersService, private route: ActivatedRoute) {}
 
   ngOnInit() {
