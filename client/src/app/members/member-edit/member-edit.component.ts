@@ -8,14 +8,15 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { PhotoEditorComponent } from "../photo-editor/photo-editor.component";
 
 
 @Component({
-  selector: 'app-member-edit',
-  standalone: true,
-  imports: [NgbNavModule, FormsModule, CommonModule],
-  templateUrl: './member-edit.component.html',
-  styleUrl: './member-edit.component.css'
+    selector: 'app-member-edit',
+    standalone: true,
+    templateUrl: './member-edit.component.html',
+    styleUrl: './member-edit.component.css',
+    imports: [NgbNavModule, FormsModule, CommonModule, PhotoEditorComponent]
 })
 export class MemberEditComponent {
   @ViewChild('editForm') editForm: NgForm | undefined;

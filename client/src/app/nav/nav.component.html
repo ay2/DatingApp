@@ -19,8 +19,9 @@
             </ul>
 
             <div class="dropdown" ngbDropdown>
-                <a class="dropdown-toggle text-light text-decoration-none" 
-                    ngbDropdownToggle><i class="fa fa-user mx-2"></i>{{user.username | titlecase}}</a>
+                <img src="{{user.photoUrl || './assets/user.png'}}" alt="photo">
+                <a class="dropdown-toggle text-light text-decoration-none ms-2" 
+                    ngbDropdownToggle>{{user.username | titlecase}}</a>
                 <div class="dropdown-menu" ngbDropdownMenu>
                     <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
                     <div class="dropdown-divider"></div>
