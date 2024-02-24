@@ -9,6 +9,8 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { PhotoEditorComponent } from "../photo-editor/photo-editor.component";
+import { DatePipe } from '@angular/common';
+import { TimeagoModule } from 'ngx-timeago';
 
 
 @Component({
@@ -16,7 +18,7 @@ import { PhotoEditorComponent } from "../photo-editor/photo-editor.component";
     standalone: true,
     templateUrl: './member-edit.component.html',
     styleUrl: './member-edit.component.css',
-    imports: [NgbNavModule, FormsModule, CommonModule, PhotoEditorComponent]
+    imports: [NgbNavModule, FormsModule, CommonModule, PhotoEditorComponent, DatePipe, TimeagoModule]
 })
 export class MemberEditComponent {
   @ViewChild('editForm') editForm: NgForm | undefined;

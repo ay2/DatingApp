@@ -43,7 +43,8 @@ public class AccountController : BaseApiController
         {
             Username = user.UserName,
             Token = _tokenService.CreateToken(user),
-            KnownAs = user.KnownAs
+            KnownAs = user.KnownAs,
+            Gender = user.Gender
         };
     }
 
@@ -65,13 +66,20 @@ public class AccountController : BaseApiController
             if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("invalid password");
         }
 
-        return new UserDto
+        var userDto = new UserDto
         {
             Username = user.UserName,
             Token = _tokenService.CreateToken(user),
             KnownAs = user.KnownAs,
-            PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url
+            Gender = user.Gender,
         };
+        var photo = user.Photos.FirstOrDefault(p => p.IsMain);
+        if (photo != null)
+        {
+            userDto.PhotoUrl = photo.Url;
+        }
+
+        return userDto;    
     }
 
     private async Task<bool> UserExists(string username)

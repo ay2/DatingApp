@@ -4,11 +4,14 @@ import { MembersService } from '../../services/members.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
+import { DatePipe } from '@angular/common';
+import { TimeagoModule } from 'ngx-timeago';
+
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [NgbNavModule, GalleryModule],
+  imports: [NgbNavModule, GalleryModule, DatePipe, TimeagoModule],
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.css'
 })

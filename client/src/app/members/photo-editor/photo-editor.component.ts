@@ -44,7 +44,7 @@ export class PhotoEditorComponent {
       next: () => {
         if (this.user && this.member) {
           this.user.photoUrl = photo.url;
-          this.accountService.serCurrentUser(this.user);
+          this.accountService.setCurrentUser(this.user);
           this.member.photoUrl = photo.url;
           this.member.photos.forEach(p => {
             if (p.isMain) p.isMain = false;
@@ -87,7 +87,7 @@ export class PhotoEditorComponent {
         if (photo.isMain && this.user && this.member) {
           this.user.photoUrl = photo.url;
           this.member.photoUrl = photo.url;
-          this.accountService.serCurrentUser(this.user);
+          this.accountService.setCurrentUser(this.user);
         }
       }
     }
