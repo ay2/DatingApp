@@ -26,14 +26,14 @@
                 <div class="card-footer">
                     <div class="btn-group d-flex">
                         <button class="btn btn-primary">Like</button>
-                        <button class="btn btn-success">Messages</button>
+                        <button class="btn btn-success" [disabled]="active === 3" (click)="nav.select(3); loadMessages();">Messages</button>
                     </div>   
                 </div>
             </div>
         </div>
 
         <div class="col-8">
-            <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="active" (navChange)="onNavChange($event)" class="nav-tabs">
                 <li [ngbNavItem]="1">
                     <button ngbNavLink>About <b>{{member.knownAs}}</b></button>
                     <ng-template ngbNavContent>
@@ -56,14 +56,14 @@
                 <li [ngbNavItem]="3">
                     <button ngbNavLink>Messages</button>
                     <ng-template ngbNavContent>
-                        <p>Messages will go here...</p>
+                        <app-member-messages [username]="member.userName" [messages]="messages"></app-member-messages>
                     </ng-template>
                 </li>
             </ul>
             
             <div [ngbNavOutlet]="nav" class="mt-2"></div>
             
-            <!--pre>Active tab: {{active}}</pre-->
+            <pre>Active tab: {{active}}</pre>
         </div>
     </div>
 }
