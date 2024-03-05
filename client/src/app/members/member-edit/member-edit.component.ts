@@ -39,6 +39,7 @@ export class MemberEditComponent {
   }
 
   ngOnInit() {
+    console.log('load member', this.user);
     this.loadMember();
   }
 

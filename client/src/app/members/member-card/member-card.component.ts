@@ -17,7 +17,7 @@ export class MemberCardComponent {
  constructor(private memberService: MembersService, private toastr: ToastrService) {}
 
  addLike(member: Member) {
-  this.memberService.addLike(member.userName).subscribe({
+  this.memberService.addLike(member.username).subscribe({
     next: () => this.toastr.success('You have liked ' + member.knownAs)
   })
  }

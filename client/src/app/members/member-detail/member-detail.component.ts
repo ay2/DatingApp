@@ -60,7 +60,7 @@ export class MemberDetailComponent {
   loadMessages() {
     // console.log('loading messages...');
     if (this.member) {
-      this.messageService.getMessageThread(this.member.userName).subscribe({
+      this.messageService.getMessageThread(this.member.username).subscribe({
         next: messages => this.messages = messages
       });
     }

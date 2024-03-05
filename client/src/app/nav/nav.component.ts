@@ -6,11 +6,12 @@ import { AsyncPipe } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TitleCasePipe } from '@angular/common';
+import { HasRoleDirective } from '../_directives/has-role.directive';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FormsModule, NgbDropdownModule, AsyncPipe, RouterLink, RouterLinkActive, TitleCasePipe],
+  imports: [FormsModule, NgbDropdownModule, AsyncPipe, RouterLink, RouterLinkActive, TitleCasePipe, HasRoleDirective],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
