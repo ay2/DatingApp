@@ -1,10 +1,10 @@
 <div class="card">
     <div class="card-body">
-        @if (messages.length === 0) {
+        @if ((messageService.messageThread$ | async)?.length === 0) {
             <div>No messages yet... say hi by using message box below</div>
         } @else {
             <ul class="chat">
-                @for (message of messages; track message.id) {
+                @for (message of messageService.messageThread$ | async; track message.id) {
                     <li>
                         <div>
                             <span class="chat-img float-end">
@@ -16,12 +16,12 @@
                             <div class="chat-body">
                                 <div class="header">
                                     <small class="text-muted">
-                                        <span class="fa fa-clock-o"> {{message.messageSent + 'Z' | timeago}} </span>
+                                        <span class="fa fa-clock-o"> {{message.messageSent | timeago}} </span>
                                         @if (!message.messageRead && message.senderUsername !== username) {
                                             <span class="text-danger"> (unread)</span>
                                         }
                                         @if (message.messageRead && message.senderUsername !== username) {
-                                            <span class="text-success"> (read {{message.messageRead + 'Z' | timeago}})</span>
+                                            <span class="text-success"> (read {{message.messageRead | timeago}})</span>
                                         }
                                     </small>
                                 </div>

@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { RouteReuseStrategy, provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -10,6 +10,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { loadingInterceptor } from './_interceptors/loading.interceptor';
 import { TimeagoModule } from 'ngx-timeago';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CustomRouteReuseStrategy } from './services/customRouteReuseStrategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     }),
     importProvidersFrom(NgxSpinnerModule.forRoot({ type: 'line-scale-party' })),
     importProvidersFrom(TimeagoModule.forRoot()),
-    importProvidersFrom(ModalModule.forRoot())
+    importProvidersFrom(ModalModule.forRoot()),
+    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy }
   ]
 };

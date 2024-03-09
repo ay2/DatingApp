@@ -1,70 +1,59 @@
-@if (member) {
-    <div class="row">
-        <div class="col-4">
-            <div class="card">
-                <img src="{{member.photoUrl || '.assets/user.png'}}" 
-                    alt="{{member.knownAs}}" 
-                    class="card-img-top img-thumbnail">
-                <div class="card-body">
-                    <div>
-                        <strong>Location:</strong>
-                        <p>{{member.city}}, {{member.country}}</p>
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <img src="{{member.photoUrl || 'assets/user.png'}}" 
+                alt="{{member.knownAs}}" 
+                class="card-img-top img-thumbnail">
+            <div class="card-body">
+                @if ((presenceService.onlineUsers$ | async)?.includes(member.userName)) {
+                    <div class="mb-2">
+                        <i class="fa fa-user-circle text-success"></i> Online now
                     </div>
-                    <div>
-                        <strong>Age:</strong>
-                        <p>{{member.age}}</p>
-                    </div>
-                    <div>
-                        <strong>Last active:</strong>
-                        <p>{{member.lastActive + 'Z' | timeago}}</p>
-                    </div>
-                    <div>
-                        <strong>Member since:</strong>
-                        <p>{{member.created | date: 'dd MMM yyyy'}}</p>
-                    </div>
+                }
+                <div>
+                    <strong>Location:</strong>
+                    <p>{{member.city}}, {{member.country}}</p>
                 </div>
-                <div class="card-footer">
-                    <div class="btn-group d-flex">
-                        <button class="btn btn-primary">Like</button>
-                        <button class="btn btn-success" [disabled]="active === 3" (click)="nav.select(3); loadMessages();">Messages</button>
-                    </div>   
+                <div>
+                    <strong>Age:</strong>
+                    <p>{{member.age}}</p>
+                </div>
+                <div>
+                    <strong>Last active:</strong>
+                    <p>{{member.lastActive | timeago}}</p>
+                </div>
+                <div>
+                    <strong>Member since:</strong>
+                    <p>{{member.created | date: 'dd MMM yyyy'}}</p>
                 </div>
             </div>
-        </div>
-
-        <div class="col-8">
-            <ul ngbNav #nav="ngbNav" [(activeId)]="active" (navChange)="onNavChange($event)" class="nav-tabs">
-                <li [ngbNavItem]="1">
-                    <button ngbNavLink>About <b>{{member.knownAs}}</b></button>
-                    <ng-template ngbNavContent>
-                        <h4>Introduction</h4>
-                        <p>{{member.introduction}}</p>
-                        <h4>Interests</h4>
-                        <p>{{member.interests}}</p>
-                        <h4>Looking for</h4>
-                        <p>{{member.lookingFor}}</p>
-                    </ng-template>
-                </li>
-                <li [ngbNavItem]="2">
-                    <button ngbNavLink>Photos</button>
-                    @if (active===2) {
-                        <ng-template ngbNavContent>
-                            <gallery [items]="images" class="gallery"></gallery>
-                        </ng-template>
-                    }
-                </li>
-                <li [ngbNavItem]="3">
-                    <button ngbNavLink>Messages</button>
-                    <ng-template ngbNavContent>
-                        <app-member-messages [username]="member.username" [messages]="messages"></app-member-messages>
-                    </ng-template>
-                </li>
-            </ul>
-            
-            <div [ngbNavOutlet]="nav" class="mt-2"></div>
-            
-            <pre>Active tab: {{active}}</pre>
+            <div class="card-footer">
+                <div class="btn-group d-flex">
+                    <button class="btn btn-primary">Like</button>
+                    <button class="btn btn-success" (click)="selectTab('Messages')">Messages</button>
+                </div>   
+            </div>
         </div>
     </div>
-}
+
+    <div class="col-8">
+        <tabset class="member-tabset" #memberTabs>
+            <tab heading="About {{member.knownAs}}" (selectTab)="onTabActivated($event)">
+                <h4>Introduction</h4>
+                <p>{{member.introduction}}</p>
+                <h4>Interests</h4>
+                <p>{{member.interests}}</p>
+                <h4>Looking for</h4>
+                <p>{{member.lookingFor}}</p>
+            </tab>
+            <tab heading="Photos" (selectTab)="onTabActivated($event)">
+                <gallery [items]="images" class="gallery"></gallery>
+            </tab>
+            <tab heading="Messages" (selectTab)="onTabActivated($event)">
+                <app-member-messages [username]="member.userName"></app-member-messages>
+            </tab>
+        </tabset>
+    </div>
+</div>
+
 

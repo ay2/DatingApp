@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Member } from '../../models/member';
-import { MembersService } from '../../services/members.service';
 import { ActivatedRoute } from '@angular/router';
-import { NgbNavChangeEvent, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { TabDirective, TabsModule, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { TimeagoModule } from 'ngx-timeago';
 import { MemberMessagesComponent } from "../member-messages/member-messages.component";
 import { MessageService } from '../../services/message.service';
 import { Message } from '../../models/message';
+import { PresenceService } from '../../services/presence.service';
+import { User } from '../../models/user';
+import { AccountService } from '../../services/account.service';
+import { take } from 'rxjs';
 
 
 @Component({
@@ -16,61 +19,66 @@ import { Message } from '../../models/message';
     standalone: true,
     templateUrl: './member-detail.component.html',
     styleUrl: './member-detail.component.css',
-    imports: [NgbNavModule, GalleryModule, DatePipe, TimeagoModule, MemberMessagesComponent]
+    imports: [TabsModule, GalleryModule, DatePipe, TimeagoModule, MemberMessagesComponent, AsyncPipe]
 })
 export class MemberDetailComponent {
-  member: Member | undefined;
+  @ViewChild('memberTabs', {static: true}) memberTabs?: TabsetComponent;
+  member: Member = {} as Member;
   images: GalleryItem[] = [];
+  activeTab?: TabDirective;
   messages: Message[] = [];
-  active = 1; // active Tab
+  user?: User;
   
-  constructor(private memberService: MembersService, private route: ActivatedRoute,
-    private messageService: MessageService) {}
+  constructor(private accountService: AccountService, private route: ActivatedRoute,
+    private messageService: MessageService, public presenceService: PresenceService) {
+      accountService.currentUser$.pipe(take(1)).subscribe({
+        next: user => {
+          if (user) this.user = user;
+        }
+      })
+    }
 
   ngOnInit() {
-    let showMessagesTab = false;
+    this.route.data.subscribe({
+      next: data => this.member = data['member']
+    })
+
+    //console.log(this.member);
 
     this.route.queryParams.subscribe({
       next: params => {
-        if (params['tab'] === 'Messages') {
-          console.log('tab: Messages');
-          showMessagesTab = true;
-          this.active = 3;
-        }
+        params['tab'] && this.selectTab(params['tab'])
       }
     })
-    
-    this.loadMember(showMessagesTab);
+
+    this.getImages();
   }
 
-  loadMember(showMessagesTab: boolean) {
-    const username = this.route.snapshot.paramMap.get('username');
-    if (!username) return;
-    // console.log('loading member ' + username + '...');
-    this.memberService.getMember(username).subscribe({
-      next: member => {
-        this.member = member;
-        this.getImages();
-        if (showMessagesTab) this.loadMessages();
-        // console.log('member ' + username + ' loaded');
-      }
-    })
+  ngOnDestroy() {
+    this.messageService.stopHubConnection();
+  }
+
+  selectTab(heading: string) {
+    if (this.memberTabs) {
+      this.memberTabs.tabs.find(x => x.heading === heading)!.active = true
+    }
   }
 
   loadMessages() {
-    // console.log('loading messages...');
     if (this.member) {
-      this.messageService.getMessageThread(this.member.username).subscribe({
+      this.messageService.getMessageThread(this.member.userName).subscribe({
         next: messages => this.messages = messages
       });
     }
   }
 
-  onNavChange(changeEvent: NgbNavChangeEvent) {
-    // console.log(changeEvent);
-		if (changeEvent.nextId === 3) {
-			this.loadMessages();
-		}
+  onTabActivated(data: TabDirective) {
+    this.activeTab = data;
+		if (this.activeTab.heading === 'Messages' && this.user && this.member) {
+			this.messageService.createHubConnection(this.user, this.member.userName);
+		} else {
+      this.messageService.stopHubConnection();
+    }
 	}
 
   getImages() {
