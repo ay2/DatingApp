@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { Message } from '../../models/message';
 import { TimeagoModule } from 'ngx-timeago';
 import { MessageService } from '../../services/message.service';
@@ -6,6 +6,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-member-messages',
   standalone: true,
   imports: [TimeagoModule, FormsModule, AsyncPipe],

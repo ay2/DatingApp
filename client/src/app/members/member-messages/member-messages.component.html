@@ -3,7 +3,11 @@
         @if ((messageService.messageThread$ | async)?.length === 0) {
             <div>No messages yet... say hi by using message box below</div>
         } @else {
-            <ul class="chat">
+            <ul 
+                #scrollMe
+                style="overflow: scroll; height: 560px;"
+                [scrollTop]="scrollMe.scrollHeight"
+                class="chat">
                 @for (message of messageService.messageThread$ | async; track message.id) {
                     <li>
                         <div>
